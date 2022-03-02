@@ -13,7 +13,7 @@ def login():
         'Authorization':'Basic MTIzNDU2OjEyMzQ1NjQ3Nzc3Nw=='
     }
     body = {
-        "account": "chubin-th",
+        "account": "chubin-th1",
         "password": "3f11b25ee9461d86cb45af37e8a35e22",
         "tenantId": "00000001",
         "grantType": "captcha"
@@ -98,7 +98,7 @@ def get_good_shelve_info(sku):
     return shelve
 
 # 单次拣货
-def pick(outboundOrderId, goodsShelvesId):
+def pick(goodsShelvesId):
     url = 'http://192.168.44.54:8761/ezsale-warehouse/wh/pick/list/pick'
     body = {
         "outboundOrderId":outboundOrderId,
@@ -115,20 +115,22 @@ def batchpick(ordernumber):
         outboundOrderId = i['outboundOrderId']
         sku = i['sku']
         encode =i['encode']
+        print("encode:{}".format(encode))
         num = i['num']
         shelves = get_good_shelve_info(sku)
         for shelve in shelves:
             if shelve['encode'] == encode:
                 for count in range(num):
-                    pick(outboundOrderId, shelve['id'])
+                    print("outboundOrderId:{}".format(outboundOrderId),"shelve['id']:{}".format(shelve['id']))
+                    pick(shelve['id'])
 
 if __name__ == "__main__":
-    #login()
+    # login()
     #gettoken()
     #pickinginfo('chubin2021918001')
     #pickingrecord()
     #get_good_shelve_info()
-    batchpick('chubin2021918008')
+    batchpick('chubin20210715th140')
 
 
 
